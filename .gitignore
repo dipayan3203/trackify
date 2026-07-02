@@ -1,17 +1,8 @@
-.git
-.gitignore
+@ -0,0 +1,7 @@
 .env
-.env.*
-!.env.example
 __pycache__/
 *.pyc
-*.pyo
 venv/
 .venv/
 *.log
 .DS_Store
-README.md
-docker-compose.yml
-lambda/
-.pytest_cache/
-.mypy_cache/
