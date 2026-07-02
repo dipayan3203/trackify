@@ -39,10 +39,7 @@ class APIKeyMiddleware(BaseHTTPMiddleware):
             )
 
         return await call_next(request)
-      ),
-            )
-
-        return await call_next(request)
+    
 
 
 app.add_middleware(APIKeyMiddleware)
