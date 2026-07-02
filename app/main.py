@@ -33,7 +33,10 @@ class APIKeyMiddleware(BaseHTTPMiddleware):
 
         if api_key != settings.API_KEY:
             logger.warning("Unauthorized request with missing or invalid X-API-Key")
-            raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail="Invalid API Key")
+            return JSONResponse(
+                status_code=status.HTTP_401_UNAUTHORIZED,
+                content={"detail": "Invalid API Key"},
+            )
 
         return await call_next(request)
 
