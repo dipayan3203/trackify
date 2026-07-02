@@ -1,5 +1,6 @@
 from pathlib import Path
-from pydantic import BaseSettings, Field
+from pydantic import Field
+from pydantic_settings import BaseSettings, SettingsConfigDict
 
 
 class Settings(BaseSettings):
@@ -21,9 +22,7 @@ class Settings(BaseSettings):
     JOB_URLS: str = Field(default="", env="JOB_URLS")
     TRACKIFY_API_URL: str = Field(..., env="TRACKIFY_API_URL")
 
-    class Config:
-        env_file = ".env"
-        env_file_encoding = "utf-8"
+    model_config = SettingsConfigDict(env_file=".env", env_file_encoding="utf-8", extra="ignore")
 
 
 settings = Settings()
