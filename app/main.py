@@ -37,10 +37,7 @@ class APIKeyMiddleware(BaseHTTPMiddleware):
                 status_code=status.HTTP_401_UNAUTHORIZED,
                 content={"detail": "Invalid API Key"},
             )
-
         return await call_next(request)
-
-
 app.add_middleware(APIKeyMiddleware)
 app.include_router(jobs.router, prefix="/jobs", tags=["jobs"])
 app.include_router(matches.router, prefix="/matches", tags=["matches"])
