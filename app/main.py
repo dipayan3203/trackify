@@ -23,12 +23,11 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
-
-
+PUBLIC_PATHS = ("/health", "/docs", "/redoc", "/openapi.json")
 class APIKeyMiddleware(BaseHTTPMiddleware):
     async def dispatch(self, request: Request, call_next):
         api_key = request.headers.get("X-API-Key")
-        if request.url.path.startswith("/health"):
+        if request.url.path.startswith(PUBLIC_PATHS):
             return await call_next(request)
 
         if api_key != settings.API_KEY:
@@ -43,7 +42,6 @@ app.include_router(jobs.router, prefix="/jobs", tags=["jobs"])
 app.include_router(matches.router, prefix="/matches", tags=["matches"])
 app.include_router(resume.router, prefix="/resume", tags=["resume"])
 
-
 @app.on_event("startup")
 async def startup_event():
     logger.info("Starting Trackify API")
@@ -52,7 +50,6 @@ async def startup_event():
     await get_mongo_client()
     logger.info("All services connected")
 
-
 @app.on_event("shutdown")
 async def shutdown_event():
     logger.info("Shutting down Trackify API")
@@ -60,7 +57,6 @@ async def shutdown_event():
     await get_redis(close=True)
     await get_mongo_client(close=True)
     logger.info("All services disconnected")
-
 
 @app.get("/health")
 async def health_check():
