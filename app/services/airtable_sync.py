@@ -35,8 +35,8 @@ def _build_record_payload(job: Job) -> dict:
 
 async def sync_job_to_airtable(job: Job) -> None:
     """Create or update a single Airtable record for a job."""
-    table_url = f"{AIRTABLE_BASE_URL}/{settings.AIRTABLE_BASE_ID}/{quote_plus(settings.AIRTABLE_TABLE_NAME)}"
-    search_url = f"{table_url}?filterByFormula={{URL}}='{job.url.replace("'", "\\'")}'"
+    escaped_url = job.url.replace("'", "\\'")
+search_url = f"{table_url}?filterByFormula={{URL}}='{escaped_url}'"
     payload = _build_record_payload(job)
     async with httpx.AsyncClient(timeout=30.0) as client:
         try:
